@@ -1,0 +1,19 @@
+name: 'GitHub checks updater'
+description: 'Marks all previously executed check runs for a given commit ref as successful'
+inputs:
+  github_token:
+    description: 'GitHub token'
+    required: true
+  check_name:
+    description: 'Check run name'
+    required: true
+  ref:
+    description: 'git ref to update'
+    required: false
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.check_name }}
+    - ${{ inputs.ref }}
