@@ -20,7 +20,7 @@ async function run() {
     const check_info = Object.assign({ status: 'completed' }, repoInfo);
     
     try {
-        const octokit = new github.GitHub(config.github_token);
+        const octokit = github.getOctokit(config.github_token); //new github.GitHub(config.github_token);
         const checks = await octokit.checks.listForRef(check_info);
         const check_runs = checks.data.check_runs;
         for (var i = 0; i < check_runs.length; i+=config.concurency) {
