@@ -4,12 +4,14 @@ const github = require('@actions/github');
 
 
 
-if ("github_token" in process.env) {
-    const github_token =  process.env.github_token;
-} else {
-    const github_token = core.getInput('github_token');
-}
+
 async function run() {
+    if ("github_token" in process.env) {
+        const github_token =  process.env.github_token;
+    } else {
+        const github_token = core.getInput('github_token');
+    }
+
     const config = {
         github_token: github_token,
         check_name: core.getInput('check_name'),
