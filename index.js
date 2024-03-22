@@ -21,14 +21,14 @@ async function run() {
     
     try {
         const octokit = github.getOctokit(config.github_token); //new github.GitHub(config.github_token);
-        const checks = await octokit.checks.listForRef(check_info);
+        const checks = await octokit.rest.checks.listForRef(check_info);
         const check_runs = checks.data.check_runs;
         for (var i = 0; i < check_runs.length; i+=config.concurency) {
             await Promise.all(
                 check_runs.slice(i, i+config.concurency)
                     .filter(check_run => check_run.name === config.check_name)
                     .map(async (check_run) => {
-                        await octokit.checks.update({
+                        await octokit.rest.checks.update({
                             owner: repoInfo.owner,
                             repo: repoInfo.repo,
                             check_run_id: check_run.id,
