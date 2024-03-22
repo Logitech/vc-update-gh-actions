@@ -6,10 +6,11 @@ const github = require('@actions/github');
 
 
 async function run() {
+    const github_token = ''
     if ("github_token" in process.env) {
-        const github_token =  process.env.github_token;
+        github_token =  process.env.github_token;
     } else {
-        const github_token = core.getInput('github_token');
+        github_token = core.getInput('github_token');
     }
 
     const config = {
