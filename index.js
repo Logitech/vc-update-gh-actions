@@ -7,7 +7,7 @@ const github = require('@actions/github');
 
 async function run() {
     const config = {
-        github_token: process.env.github_token ? process.env.github_token : core.getInput('github_token');
+        github_token: process.env.github_token ? process.env.github_token : core.getInput('github_token'),
         check_name: core.getInput('check_name'),
         ref: core.getInput('ref'),
         concurency: 5,
