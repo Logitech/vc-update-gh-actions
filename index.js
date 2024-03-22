@@ -6,15 +6,8 @@ const github = require('@actions/github');
 
 
 async function run() {
-    const github_token = ''
-    if ("github_token" in process.env) {
-        github_token =  process.env.github_token;
-    } else {
-        github_token = core.getInput('github_token');
-    }
-
     const config = {
-        github_token: github_token,
+        github_token: process.env.github_token ? process.env.github_token : core.getInput('github_token');
         check_name: core.getInput('check_name'),
         ref: core.getInput('ref'),
         concurency: 5,
