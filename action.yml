@@ -12,8 +12,10 @@ inputs:
     required: false
     default: ''
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.check_name }}
-    - ${{ inputs.ref }}
+  using: "composite"
+  steps:
+    - name: Print deprecation message
+      run: |
+        echo "⚠️ This GitHub Action is deprecated and no longer runs any checks."
+        echo "Input check_name: ${{ inputs.check_name }}"
+        echo "Input ref: ${{ inputs.ref }}"
