@@ -1,0 +1,39 @@
+name: Shared JiraCheck Python Action
+description: Reusable Python logic
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - run: pip install -r ${{ github.action_path }}/requirements.txt
+      shell: bash
+
+    - id: jira-id
+      run: python ${{ github.action_path }}/main.py
+      shell: bash
+    
+    - name: Print JIRA link
+      uses: actions/github-script@v7
+      with:
+          script: |
+              const jiraIds = `${{ steps.jira-id.outputs.JIRA-IDS }}`.split('|,:')
+              const jiraTitles = `${{ steps.jira-id.outputs.JIRA-TITLES }}`.split('|,:')
+              let body_jiras = ''
+              for (const [i, id] of jiraIds.entries()) {
+                body_jiras += `[${jiraTitles[i]}](${{ env.JIRA_URL }}browse/${id})\n`
+              }
+              
+              await github.rest.pulls.update({
+                  pull_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: [
+                    `### JIRA`,
+                    body_jiras,
+                    ``,
+                    context.payload.pull_request.body,
+                  ].join('\n'),
+              })
