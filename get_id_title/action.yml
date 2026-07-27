@@ -23,7 +23,7 @@ runs:
               const jiraTitles = `${{ steps.jira-id.outputs.JIRA-TITLES }}`.split('|,:')
               let body_jiras = ''
               for (const [i, id] of jiraIds.entries()) {
-                body_jiras += `[${jiraTitles[i]}](${{ env.JIRA_URL }}browse/${id})\n`
+                body_jiras += `[${jiraTitles[i]}](${{ env.JIRA_URL_UI }}browse/${id})\n`
               }
               
               await github.rest.pulls.update({
